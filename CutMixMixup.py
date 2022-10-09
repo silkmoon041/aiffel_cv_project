@@ -15,6 +15,8 @@ import tensorflow_datasets as tfds
 
 #####################################################
 
+
+
 def apply_normalize_on_dataset(ds, is_test=False, batch_size=3, with_aug=False, aug_method=None):
     ds = ds.map(
         normalize_and_resize_img,
@@ -242,6 +244,7 @@ mixup_resnet50 = keras.models.Sequential([
 # 학습이 너무 오래 걸릴 경우 epoch 수를 조절해 주세요
 
 EPOCH = 3
+BATCH_SIZE = 3
 
 # no augmentation
 resnet50.compile(
@@ -252,8 +255,8 @@ resnet50.compile(
 
 history_no_aug = resnet50.fit(
     ds_train_no_aug, # augmentation 적용하지 않은 데이터셋 사용
-    steps_per_epoch=int(ds_info.splits['train'].num_examples/16),
-    validation_steps=int(ds_info.splits['test'].num_examples/16),
+    steps_per_epoch=int(ds_info.splits['train'].num_examples/BATCH_SIZE),
+    validation_steps=int(ds_info.splits['test'].num_examples/BATCH_SIZE),
     epochs=EPOCH,
     validation_data=ds_test,
     verbose=1,
@@ -269,8 +272,8 @@ aug_resnet50.compile(
 
 history_aug = aug_resnet50.fit(
     ds_train_aug, # augmentation 적용한 데이터셋 사용
-    steps_per_epoch=int(ds_info.splits['train'].num_examples/16),
-    validation_steps=int(ds_info.splits['test'].num_examples/16),
+    steps_per_epoch=int(ds_info.splits['train'].num_examples/BATCH_SIZE),
+    validation_steps=int(ds_info.splits['test'].num_examples/BATCH_SIZE),
     epochs=EPOCH,
     validation_data=ds_test,
     verbose=1,
@@ -286,8 +289,8 @@ cutmix_resnet50.compile(
 
 history_cutmix = cutmix_resnet50.fit(
     ds_train_cutmix, # cutmix 적용한 데이터셋 사용
-    steps_per_epoch=int(ds_info.splits['train'].num_examples/16),
-    validation_steps=int(ds_info.splits['test'].num_examples/16),
+    steps_per_epoch=int(ds_info.splits['train'].num_examples/BATCH_SIZE),
+    validation_steps=int(ds_info.splits['test'].num_examples/BATCH_SIZE),
     epochs=EPOCH,
     validation_data=ds_test,
     verbose=1,
@@ -303,8 +306,8 @@ mixup_resnet50.compile(
 
 history_mixup = mixup_resnet50.fit(
     ds_train_mixup, # mixup 적용한 데이터셋 사용
-    steps_per_epoch=int(ds_info.splits['train'].num_examples/16),
-    validation_steps=int(ds_info.splits['test'].num_examples/16),
+    steps_per_epoch=int(ds_info.splits['train'].num_examples/BATCH_SIZE),
+    validation_steps=int(ds_info.splits['test'].num_examples/BATCH_SIZE),
     epochs=EPOCH,
     validation_data=ds_test,
     verbose=1,
@@ -320,8 +323,8 @@ mixup_resnet50.compile(
 
 history_mixup = mixup_resnet50.fit(
     ds_train_mixup, # mixup 적용한 데이터셋 사용
-    steps_per_epoch=int(ds_info.splits['train'].num_examples/16),
-    validation_steps=int(ds_info.splits['test'].num_examples/16),
+    steps_per_epoch=int(ds_info.splits['train'].num_examples/BATCH_SIZE),
+    validation_steps=int(ds_info.splits['test'].num_examples/BATCH_SIZE),
     epochs=EPOCH,
     validation_data=ds_test,
     verbose=1,
